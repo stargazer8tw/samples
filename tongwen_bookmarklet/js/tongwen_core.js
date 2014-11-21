@@ -208,7 +208,7 @@ var TongWen = (function () {
 								case "button":
 								case "submit":
 								case "reset":
-								// case "text": // keep org value
+								case "text": // keep org value
 									if (node.value.length > 0) {
 										node.value = convert(node.value, zhflag);
 									}
