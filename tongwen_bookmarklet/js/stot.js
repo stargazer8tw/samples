@@ -27,6 +27,8 @@ javascript: (function () {
 // min
 javascript: (function () {var s = document.getElementById("tongwen_s2t");if (s != null) {document.body.removeChild(s);}var s = document.createElement("script");s.language = "javascript";s.type = "text/javascript";s.src = "http://tongwen.openfoundry.org/src/web/tongwen_table_s2t.js";s.id = "tongwen_s2t";document.body.appendChild(s);var c = document.getElementById("tongwen_core");if (c != null) {document.body.removeChild(s);}var c = document.createElement("script");c.language = "javascript";c.type = "text/javascript";c.src = "http://tongwen.openfoundry.org/src/web/tongwen_core.js";c.id = "tongwen_core";document.body.appendChild(c);TongWen.trans2Trad(window.document);})();
 
+javascript: (function () {var s = document.getElementById("tongwen_s2t");if (s != null) {document.body.removeChild(s);}var s = document.createElement("script");s.language = "javascript";s.type = "text/javascript";s.src = "http://tongwen.openfoundry.org/src/web/tongwen_table_s2t.js";s.id = "tongwen_s2t";document.body.appendChild(s);var c = document.getElementById("tongwen_core");if (c != null) {document.body.removeChild(s);}var c = document.createElement("script");c.language = "javascript";c.type = "text/javascript";c.src = "http://d1fgci8h6rlhgr.cloudfront.net/cdn/js/tongwen/tongwen_core.js";c.id = "tongwen_core";document.body.appendChild(c);TongWen.trans2Trad(window.document);})();
+
 // 繁 to 簡
 javascript: (function () {
     var c = document.getElementById("tongwencore");
@@ -55,6 +57,14 @@ javascript: (function () {
 // min
 javascript: (function () {var s = document.getElementById("tongwen_t2s");if (s != null) {document.body.removeChild(s);}var s = document.createElement("script");s.language = "javascript";s.type = "text/javascript";s.src = "http://tongwen.openfoundry.org/src/web/tongwen_table_t2s.js";s.id = "tongwen_t2s";document.body.appendChild(s);var c = document.getElementById("tongwen_core");if (c != null) {document.body.removeChild(s);}var c = document.createElement("script");c.language = "javascript";c.type = "text/javascript";c.src = "http://tongwen.openfoundry.org/src/web/tongwen_core.js";c.id = "tongwen_core";document.body.appendChild(c);TongWen.trans2Simp(window.document);})();
 
+javascript: (function () {var s = document.getElementById("tongwen_t2s");if (s != null) {document.body.removeChild(s);}var s = document.createElement("script");s.language = "javascript";s.type = "text/javascript";s.src = "http://tongwen.openfoundry.org/src/web/tongwen_table_t2s.js";s.id = "tongwen_t2s";document.body.appendChild(s);var c = document.getElementById("tongwen_core");if (c != null) {document.body.removeChild(s);}var c = document.createElement("script");c.language = "javascript";c.type = "text/javascript";c.src = "http://d1fgci8h6rlhgr.cloudfront.net/cdn/js/tongwen/tongwen_core.js";c.id = "tongwen_core";document.body.appendChild(c);TongWen.trans2Simp(window.document);})();
+
+
+/*
+AWS CDN
+https://s3-ap-southeast-1.amazonaws.com/stargazer8tw/cdn/js/tongwen/tongwen_core.js
+http://d1fgci8h6rlhgr.cloudfront.net/cdn/js/tongwen/tongwen_core.js
+*/
 // other
 javascript: (function () {
     var s = document.createElement("script");
