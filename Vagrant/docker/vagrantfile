@@ -1,0 +1,104 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+$user_script = <<SCRIPT
+#!/bin/bash
+groupadd deployers
+useradd -m -d /home/deployer -g deployers -s /bin/bash deployer
+echo -e "deployer\ndeployer\n" | passwd deployer
+
+cat << EOF | tee -a /etc/sudoers
+%deployers ALL= (ALL) NOPASSWD: ALL # add this line
+EOF
+SCRIPT
+
+$ssh_script = <<SCRIPT
+echo -e "\n" | su - -c "ssh-keygen -t rsa -N ''" deployer -
+su - -c "cat /home/deployer/.ssh/id_rsa.pub >> /home/deployer/.ssh/authorized_keys" deployer -
+su - -c "chmod 600 ~/.ssh/authorized_keys" deployer -
+SCRIPT
+$network_script = <<SCRIPT
+#!/bin/bash
+IP="$1"
+HOST="$2"
+SEC="$3"
+
+cat > /etc/hosts <<EOF
+#127.0.0.1       localhost
+
+# The following lines are desirable for IPv6 capable hosts
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+
+$IP	$HOST.trinity.dev	$HOST
+EOF
+
+cat > /etc/hostname <<EOF
+$HOST
+EOF
+
+cat > /etc/network/interfaces  <<EOF
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet dhcp
+
+auto eth1
+iface eth1 inet static
+	address $IP
+	netmask 255.255.255.0
+	network 192.168.$SEC.0
+	broadcast 192.168.$SEC.255
+	#gateway 192.168.$SEC.254
+    post-up route add default gw 192.168.$SEC.254 dev eth1 metric 1
+    pre-down route del default gw 192.168.$SEC.254
+EOF
+
+ip addr flush dev eth1
+ifdown eth1 --force
+ifup eth1 --force
+
+SCRIPT
+
+$package_script = <<SCRIPT
+#!/bin/bash
+apt-get update -qq
+SCRIPT
+
+$resolv_script = <<SCRIPT
+#!/bin/bash
+NS="$1"
+cat > /etc/resolv.conf  <<EOF
+nameserver $NS
+search trinity.dev
+EOF
+SCRIPT
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+	config.vm.define :trusty do |ubuntu14|
+		ubuntu14.vm.box = "trusty"
+		ubuntu14.vm.provider "virtualbox" do |vb|
+			vb.memory = 4096
+			vb.cpus = 2
+			vb.customize ["modifyvm", :id, "--ioapic", "on"]
+			vb.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
+		end
+#		ubuntu14.vm.network :public_network, :bridge => 'eth0', :auto_config => false
+		ubuntu14.vm.hostname = "ubuntu14"
+
+#		ubuntu14.vm.provision "shell" do |s|
+#			s.inline = $network_script
+#			s.args = [ "192.168.4.211", "ubuntu14", "4" ]
+#		end
+		ubuntu14.vm.provision :shell, :inline => $user_script
+		ubuntu14.vm.provision :shell, :inline => $ssh_script
+		ubuntu14.vm.provision :shell, :inline => $package_script
+    end
+end
