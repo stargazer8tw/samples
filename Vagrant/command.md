@@ -1,0 +1,1 @@
+vagrant box add [box file] --name [box name]
