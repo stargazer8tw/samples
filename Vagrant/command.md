@@ -7,3 +7,5 @@ vagrant destroy
 vagrant reload
 
 vagrant halt
+
+vagrant global status
