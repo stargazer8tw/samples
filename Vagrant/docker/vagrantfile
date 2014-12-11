@@ -70,9 +70,27 @@ $package_script = <<SCRIPT
 #!/bin/bash
 rm /var/lib/apt/lists/* -vf
 
-apt-get update
+apt-get update -qq
+
+SCRIPT
+
+$docker_source_script = <<SCRIPT
+#!/bin/bash
+[ -e /usr/lib/apt/methods/https ] || {
+  apt-get update
+  apt-get install apt-transport-https
+}
+
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9
+
+sh -c "echo deb https://get.docker.com/ubuntu docker main\
+> /etc/apt/sources.list.d/docker.list"
 
 apt-get update -qq
+
+apt-get install lxc-docker
+
+curl -sSL https://get.docker.com/ubuntu/ | sh
 
 SCRIPT
 
