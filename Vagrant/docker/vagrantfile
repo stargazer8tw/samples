@@ -64,9 +64,16 @@ ifup eth1 --force
 
 SCRIPT
 
+# fix ubuntu 14.04 bug Failed to fetch update on Ubuntu 14.04 LTS
+# http://archive.ubuntu.com/ubuntu/dists/trusty-updates/main/i18n/Translation-en  Hash Sum mismatch
 $package_script = <<SCRIPT
 #!/bin/bash
+rm /var/lib/apt/lists/* -vf
+
+apt-get update
+
 apt-get update -qq
+
 SCRIPT
 
 $resolv_script = <<SCRIPT
