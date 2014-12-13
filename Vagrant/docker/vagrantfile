@@ -88,9 +88,9 @@ sh -c "echo deb https://get.docker.com/ubuntu docker main\
 
 apt-get update -qq
 
-apt-get install lxc-docker
+apt-get install lxc-docker -y
 
-curl -sSL https://get.docker.com/ubuntu/ | sh
+# curl -sSL https://get.docker.com/ubuntu/ | sh
 
 SCRIPT
 
@@ -125,5 +125,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		ubuntu14.vm.provision :shell, :inline => $user_script
 		ubuntu14.vm.provision :shell, :inline => $ssh_script
 		ubuntu14.vm.provision :shell, :inline => $package_script
+        ubuntu14.vm.provision :shell, :inline => $docker_source_script
     end
 end
