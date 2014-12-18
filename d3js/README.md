@@ -11,6 +11,8 @@ simple d3 demoe web site project
 - text: https://github.com/requirejs/text
 - i18n: https://github.com/i18next/i18next
 - i18n: http://app.essoduke.org/i18n/
+- d3: http://d3js.org/
+- nvd3: http://nvd3.org/
 
 **Reference:**
 
@@ -19,6 +21,7 @@ simple d3 demoe web site project
 - http://backbonetutorials.com/organizing-backbone-using-modules/
 - https://github.com/thomasdavis/backbonetutorials/tree/gh-pages/examples/modular-backbone
 - https://github.com/backbone-boilerplate/backbone-boilerplate
+- https://github.com/mbostock/d3/issues/1693
 
 License (MIT)
 ===
