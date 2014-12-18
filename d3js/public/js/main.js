@@ -11,7 +11,9 @@ require.config({
         // none amd compliance
         modernizr: 'lib/modernizr/modernizr-2.6.2.min',
         bootstrap: 'lib/bootstrap/bootstrap.min',
-        showdown: 'lib/showdown/showdown'
+        showdown: 'lib/showdown/showdown',
+        d3: 'lib/d3/d3.min.js',
+        nvd3: 'lib/nvd3/nv.d3.min.js'
 //        markdownConverter: "../lib/pagedown/Markdown.Converter",
 //        markdownSanitizer: '../lib/pagedown/Markdown.Sanitizer'
         //        mdown: '../lib/require/mdown'
@@ -73,6 +75,10 @@ require.config({
 //        'markdown': {
 //            deps: ['markdownConverter'],
 //            exports: 'markdownSanitizer'
+        },
+        nvd3: {
+            exports: 'nv',
+            deps: ['d3.global']
         }
     },
     enforceDefine: true
@@ -90,6 +96,10 @@ require.config({
 //        converter: converter
 //    }
 //});
+
+define("d3.global", ["d3"], function(_) {
+      d3 = _;
+});
 
 require([
  //     'jquery',
