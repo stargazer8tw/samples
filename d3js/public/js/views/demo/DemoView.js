@@ -4,7 +4,9 @@ define([
     'backbone',
     //'models/blog/BlogModel',
     'text!data.templates/default.html',
-    'text!data.content/demo/demo.html'
+    'text!data.content/demo/demo.html',
+    'd3',
+    'nvd3'
 ], function ($, _, Backbone, defaultTemplate, demo) {
     "use strict";
     var DemoView = Backbone.View.extend({

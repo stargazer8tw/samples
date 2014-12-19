@@ -12,8 +12,8 @@ require.config({
         modernizr: 'lib/modernizr/modernizr-2.6.2.min',
         bootstrap: 'lib/bootstrap/bootstrap.min',
         showdown: 'lib/showdown/showdown',
-        d3: 'lib/d3/d3.min.js',
-        nvd3: 'lib/nvd3/nv.d3.min.js'
+        d3: 'lib/d3/d3.min',
+        nvd3: 'lib/nvd3/nv.d3.min'
 //        markdownConverter: "../lib/pagedown/Markdown.Converter",
 //        markdownSanitizer: '../lib/pagedown/Markdown.Sanitizer'
         //        mdown: '../lib/require/mdown'
