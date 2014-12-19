@@ -3,14 +3,14 @@ define([
     'underscore',
     'backbone',
     'views/home/HomeView',
-    'views/blog/BlogView',
+    'views/demo/DemoView',
     'views/about/AboutView'
-], function ($, _, Backbone, HomeView, BlogView, AboutView) {
-//    "use strict";
+], function ($, _, Backbone, HomeView, DemoView, AboutView) {
+    //    "use strict";
     var AppRouter = Backbone.Router.extend({
         routes: {
             // Define some URL routes
-            'blog': 'showBlog',
+            'demo': 'showDemo',
             'about': 'showAbout',
             // Default
             '*actions': 'defaultAction'
@@ -21,21 +21,25 @@ define([
 
         var app_router = new AppRouter();
 
-        app_router.on('route:showBlog', function () {
+        app_router.on('route:showDemo', function () {
 
             // Call render on the module we loaded in via the dependency array
-            var blogView = new BlogView();
-            blogView.render();
+            var demoView = new DemoView();
+            demoView.render();
 
         });
 
         app_router.on('route:showAbout', function () {
+            var hiddenBox = $("#banner");
+            hiddenBox.hide();
+
             var aboutView = new AboutView();
             aboutView.render();
         });
 
         app_router.on('route:defaultAction', function (actions) {
-
+            var hiddenBox = $("#banner");
+            hiddenBox.hide();
             // We have no matching route, lets display the home page
             var homeView = new HomeView();
             homeView.render();

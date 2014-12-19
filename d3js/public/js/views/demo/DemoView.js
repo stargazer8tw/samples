@@ -3,16 +3,19 @@ define([
     'underscore',
     'backbone',
     //'models/blog/BlogModel',
-    'text!data.templates/default.html'
-], function ($, _, Backbone, defaultTemplate) {
+    'text!data.templates/default.html',
+    'text!data.content/demo/demo.html'
+], function ($, _, Backbone, defaultTemplate, demo) {
     "use strict";
-    var BlogView = Backbone.View.extend({
+    var DemoView = Backbone.View.extend({
         el: $("#page"),
         render: function () {
             $('.nav li').removeClass('active');
             $('.nav li a[href="' + window.location.hash + '"]').parent().addClass('active');
+
             this.$el.html(defaultTemplate);
+            $('#main').html(demo);
         }
     });
-    return BlogView;
+    return DemoView;
 });
