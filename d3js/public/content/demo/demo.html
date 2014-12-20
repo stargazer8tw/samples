@@ -1,17 +1,301 @@
+<!DOCTYPE html>
 <link rel="stylesheet" href="css/lib/nvd3/nv.d3.min.css">
+<meta charset="utf-8">
+<style>
+    svg {
+        font: 10px sans-serif;
+    }
+    .y.axis path {
+        display: none;
+    }
+    .y.axis line {
+        stroke: #fff;
+        stroke-opacity: .2;
+        shape-rendering: crispEdges;
+    }
+    .y.axis .zero line {
+        stroke: #000;
+        stroke-opacity: 1;
+    }
+    .title {
+        font: 300 78px Helvetica Neue;
+        fill: #666;
+    }
+    .birthyear,
+    .age {
+        text-anchor: middle;
+    }
+    .birthyear {
+        fill: #fff;
+    }
+    rect {
+        fill-opacity: .6;
+        fill: #e377c2;
+    }
+    rect:first-child {
+        fill: #1f77b4;
+    }
+</style>
+<script>
+    $(function () {
+        var margin = {
+                top: 20,
+                right: 40,
+                bottom: 30,
+                left: 20
+            },
+            width = 960 - margin.left - margin.right,
+            height = 500 - margin.top - margin.bottom,
+            barWidth = Math.floor(width / 19) - 1;
+
+        var x = d3.scale.linear()
+            .range([barWidth / 2, width - barWidth / 2]);
+
+        var y = d3.scale.linear()
+            .range([height, 0]);
+
+        var yAxis = d3.svg.axis()
+            .scale(y)
+            .orient("right")
+            .tickSize(-width)
+            .tickFormat(function (d) {
+                return Math.round(d / 1e6) + "M";
+            });
+
+        // An SVG element with a bottom-right origin.
+        var svg = d3.select("#population").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        // A sliding container to hold the bars by birthyear.
+        var birthyears = svg.append("g")
+            .attr("class", "birthyears");
+
+        // A label for the current year.
+        var title = svg.append("text")
+            .attr("class", "title")
+            .attr("dy", ".71em")
+            .text(2000);
+
+        d3.csv("data/population.csv", function (error, data) {
+
+            // Convert strings to numbers.
+            data.forEach(function (d) {
+                d.people = +d.people;
+                d.year = +d.year;
+                d.age = +d.age;
+            });
+
+            // Compute the extent of the data set in age and years.
+            var age1 = d3.max(data, function (d) {
+                    return d.age;
+                }),
+                year0 = d3.min(data, function (d) {
+                    return d.year;
+                }),
+                year1 = d3.max(data, function (d) {
+                    return d.year;
+                }),
+                year = year1;
+
+            // Update the scale domains.
+            x.domain([year1 - age1, year1]);
+            y.domain([0, d3.max(data, function (d) {
+                return d.people;
+            })]);
+
+            // Produce a map from year and birthyear to [male, female].
+            data = d3.nest()
+                .key(function (d) {
+                    return d.year;
+                })
+                .key(function (d) {
+                    return d.year - d.age;
+                })
+                .rollup(function (v) {
+                    return v.map(function (d) {
+                        return d.people;
+                    });
+                })
+                .map(data);
+
+            // Add an axis to show the population values.
+            svg.append("g")
+                .attr("class", "y axis")
+                .attr("transform", "translate(" + width + ",0)")
+                .call(yAxis)
+                .selectAll("g")
+                .filter(function (value) {
+                    return !value;
+                })
+                .classed("zero", true);
+
+            // Add labeled rects for each birthyear (so that no enter or exit is required).
+            var birthyear = birthyears.selectAll(".birthyear")
+                .data(d3.range(year0 - age1, year1 + 1, 5))
+                .enter().append("g")
+                .attr("class", "birthyear")
+                .attr("transform", function (birthyear) {
+                    return "translate(" + x(birthyear) + ",0)";
+                });
+
+            birthyear.selectAll("rect")
+                .data(function (birthyear) {
+                    return data[year][birthyear] || [0, 0];
+                })
+                .enter().append("rect")
+                .attr("x", -barWidth / 2)
+                .attr("width", barWidth)
+                .attr("y", y)
+                .attr("height", function (value) {
+                    return height - y(value);
+                });
+
+            // Add labels to show birthyear.
+            birthyear.append("text")
+                .attr("y", height - 4)
+                .text(function (birthyear) {
+                    return birthyear;
+                });
+
+            // Add labels to show age (separate; not animated).
+            svg.selectAll(".age")
+                .data(d3.range(0, age1 + 1, 5))
+                .enter().append("text")
+                .attr("class", "age")
+                .attr("x", function (age) {
+                    return x(year - age);
+                })
+                .attr("y", height + 4)
+                .attr("dy", ".71em")
+                .text(function (age) {
+                    return age;
+                });
+
+            // Allow the arrow keys to change the displayed year.
+            window.focus();
+            d3.select(window).on("keydown", function () {
+                switch (d3.event.keyCode) {
+                case 37:
+                    year = Math.max(year0, year - 10);
+                    break;
+                case 39:
+                    year = Math.min(year1, year + 10);
+                    break;
+                }
+                update();
+            });
+
+            function update() {
+                if (!(year in data)) return;
+                title.text(year);
+
+                birthyears.transition()
+                    .duration(750)
+                    .attr("transform", "translate(" + (x(year1) - x(year)) + ",0)");
+
+                birthyear.selectAll("rect")
+                    .data(function (birthyear) {
+                        return data[year][birthyear] || [0, 0];
+                    })
+                    .transition()
+                    .duration(750)
+                    .attr("y", y)
+                    .attr("height", function (value) {
+                        return height - y(value);
+                    });
+            }
+        });
+    });
+</script>
+<script>
+    $(function () {
+        nv.addGraph(function () {
+            var chart = nv.models.discreteBarChart()
+                .x(function (d) {
+                    return d.label
+                }) //Specify the data accessors.
+                .y(function (d) {
+                    return d.value
+                })
+                .staggerLabels(true) //Too many bars and not enough room? Try staggering labels.
+                .tooltips(true) //Don't show tooltips
+                .showValues(true) //...instead, show the bar value right on top of each bar.
+                .transitionDuration(350);
+
+            d3.select('#discrete').append("svg")
+                .datum(exampleData())
+                .call(chart);
+
+            nv.utils.windowResize(chart.update);
+
+            return chart;
+        });
+        //Each bar represents a single discrete quantity.
+        function exampleData() {
+            return [
+                {
+                    key: "Cumulative Return",
+                    values: [
+                        {
+                            "label": "A Label",
+                            "value": -29.765957771107
+        },
+                        {
+                            "label": "B Label",
+                            "value": 0
+        },
+                        {
+                            "label": "C Label",
+                            "value": 32.807804682612
+        },
+                        {
+                            "label": "D Label",
+                            "value": 196.45946739256
+        },
+                        {
+                            "label": "E Label",
+                            "value": 0.19434030906893
+        },
+                        {
+                            "label": "F Label",
+                            "value": -98.079782601442
+        },
+                        {
+                            "label": "G Label",
+                            "value": -13.925743130903
+        },
+                        {
+                            "label": "H Label",
+                            "value": -5.1387322875705
+        }
+      ]
+    }
+  ]
+
+        }
+    });
+</script>
 <div id="demo" class="container">
     <div class="row">
         <div class="col-lg-4">
-            <h2>Safari bug warning!</h2>
-            <p class="text-danger">As of v8.0, Safari exhibits a bug in which resizing your browser horizontally causes rendering errors in the justified nav that are cleared upon refreshing.</p>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
-            <p><a class="btn btn-primary" href="#" role="button">View details &raquo;</a>
+            <h2>Population Pyramid</h2>
+            <p>sample from <a href="http://bl.ocks.org/mbostock/4062085">mostock's block #4062085</a>
             </p>
+
+            <div id="population"></div>
+
+            <div><a class="btn btn-primary" href="#" role="button">back &raquo;</a>
+            </div>
         </div>
         <div class="col-lg-4">
-            <h2>Heading</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
-            <p><a class="btn btn-primary" href="#" role="button">View details &raquo;</a>
+            <h2>Discrete Bar Chart</h2>
+            <p>sample from <a href="http://nvd3.org/examples/discreteBar.html">nvd3.js</a>
+            </p>
+            <div id="discrete"></div>
+            <p><a class="btn btn-primary" href="#" role="button">back &raquo;</a>
             </p>
         </div>
     </div>
