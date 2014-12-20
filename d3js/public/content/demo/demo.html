@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <style>
     svg {
-        font: 10px sans-serif;
+        font: 12px sans-serif;
     }
     .y.axis path {
         display: none;
@@ -63,9 +63,11 @@
             });
 
         // An SVG element with a bottom-right origin.
-        var svg = d3.select("#population").append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
+        var svg = d3.select("#population")
+            .append("svg")
+            //responsive SVG needs these 2 attributes and no width and height attr
+            .attr("preserveAspectRatio", "xMinYMin meet")
+            .attr("viewBox", "0 0 960 500")
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -211,6 +213,7 @@
     });
 </script>
 <script>
+    // nvd3.js
     $(function () {
         nv.addGraph(function () {
             var chart = nv.models.discreteBarChart()
