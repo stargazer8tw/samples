@@ -11,6 +11,7 @@ define([
         routes: {
             // Define some URL routes
             'demo': 'showDemo',
+            "examples/:id": "getExample",
             'about': 'showAbout',
             // Default
             '*actions': 'defaultAction'
@@ -45,7 +46,12 @@ define([
             homeView.render();
 
         });
+        app_router.on('route:getExample', function (id) {
+            var hiddenBox = $("#banner");
+            hiddenBox.hide();
 
+            alert("get example id " +id);
+        });
         // Unlike the above, we don't call render on this view as it will handle
         // the render call internally after it loads data. Further more we load it
         // outside of an on-route function to have it loaded no matter which page is
