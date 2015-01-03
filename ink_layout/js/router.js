@@ -3,8 +3,9 @@ define([
     'underscore',
     'backbone',
     'views/MainView',
+    'views/SummaryView',
     'views/QueryView'
-], function ($, _, Backbone, MainView, QueryView) {
+], function ($, _, Backbone, MainView, SummaryView, QueryView) {
     "use strict";
     var AppRouter = Backbone.Router.extend({
         routes: {
@@ -18,31 +19,19 @@ define([
     });
 
     var initialize = function () {
+        var mainView = new MainView();
+        mainView.render();
 
         var app_router = new AppRouter();
-
-        //        app_router.on('route:showDemo', function () {
-        //
-        //            // Call render on the module we loaded in via the dependency array
-        //            var demoView = new DemoView();
-        //            demoView.render();
-        //
-        //        });
-        //
         app_router.on('route:showQuery', function () {
-            //            var hiddenBox = $("#banner");
-            //            hiddenBox.hide();
-//            var mainView = new MainView();
-//            mainView.render();
             var queryView = new QueryView();
             queryView.render();
 
         });
 
         app_router.on('route:defaultAction', function (actions) {
-            // We have no matching route, lets display the home page
-            var mainView = new MainView();
-            mainView.render();
+            var summaryView = new SummaryView();
+            summaryView.render();
 
         });
         //        app_router.on('route:getExample', function (id) {
