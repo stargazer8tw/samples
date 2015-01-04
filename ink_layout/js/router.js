@@ -36,7 +36,7 @@ define([
             summaryView.render();
             var chartsView = new ChartsView();
             d3.json("../data/bar.json", function (error, data) {
-                    console.log(data);
+//                    console.log(data);
                     chartsView.drawBar(data);
                 });
         });
