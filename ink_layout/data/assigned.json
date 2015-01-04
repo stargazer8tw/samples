@@ -1,0 +1,26 @@
+[{
+    "status_id": "2",
+    "closed": "f",
+    "assigned_to_id": "9",
+    "total": "1"
+}, {
+    "status_id": "1",
+    "closed": "f",
+    "assigned_to_id": "5",
+    "total": "1"
+}, {
+    "status_id": "5",
+    "closed": "t",
+    "assigned_to_id": "11",
+    "total": "1"
+}, {
+    "status_id": "1",
+    "closed": "f",
+    "assigned_to_id": "9",
+    "total": "1"
+}, {
+    "status_id": "4",
+    "closed": "f",
+    "assigned_to_id": "8",
+    "total": "1"
+}]

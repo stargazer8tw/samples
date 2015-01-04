@@ -2,10 +2,12 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'd3',
+    'views/ChartsView',
     'views/MainView',
     'views/SummaryView',
     'views/QueryView'
-], function ($, _, Backbone, MainView, SummaryView, QueryView) {
+], function ($, _, Backbone, d3, ChartsView, MainView, SummaryView, QueryView) {
     "use strict";
     var AppRouter = Backbone.Router.extend({
         routes: {
@@ -32,7 +34,11 @@ define([
         app_router.on('route:defaultAction', function (actions) {
             var summaryView = new SummaryView();
             summaryView.render();
-
+            var chartsView = new ChartsView();
+            d3.json("../data/bar.json", function (error, data) {
+                    console.log(data);
+                    chartsView.drawBar(data);
+                });
         });
         //        app_router.on('route:getExample', function (id) {
         //            var hiddenBox = $("#banner");
