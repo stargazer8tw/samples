@@ -3,22 +3,42 @@
         height: 400px;
     }
 </style>
-<div id="chart" class="all-50">
-    <svg></svg>
-    <p>test</p>
-</div>
-<div id="chart-bar-assigned" class="all-33">
-    test2
-    <svg></svg>
-</div>
-<div id="table-assigned" class="all-33">
-    <p>table space</p>
+<div class="row">
+    <div class="col-md-4">
+        <ul class="nav nav-pills nav-stacked pull-left">
+            <li>
+            </li>
+            <li role="presentation" class="active"><a href="#">this week</a>
+            </li>
+            <li role="presentation"><a href="#">last two weeks</a>
+            </li>
+            <li role="presentation"><a href="#">this month</a>
+            </li>
+            <li role="presentation"><a href="#">last three months</a>
+            </li>
+            <li role="presentation"><a href="#">all</a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-12">
+        <div id="chart">
+            <svg></svg>
+            <p>test</p>
+        </div>
+        <div id="chart-bar-assigned">
+            test2
+            <svg></svg>
+        </div>
+        <div id="table-assigned">
+            <p>table space</p>
+        </div>
+    </div>
 </div>
 <script>
-//    d3.json("data/assigned.json", function (error, data) {
-//        console.log(data); // this is your data
-//    });
-//    d3.json("data/bar.json", function (error, data) {
-//        console.log(data); // this is your data
-//    });
+    //    d3.json("data/assigned.json", function (error, data) {
+    //        console.log(data); // this is your data
+    //    });
+    //    d3.json("data/bar.json", function (error, data) {
+    //        console.log(data); // this is your data
+    //    });
 </script>

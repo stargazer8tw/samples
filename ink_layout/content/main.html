@@ -1,25 +1,34 @@
-<link rel="stylesheet" href="css/ink/ink.min.css">
+<link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
 <link rel="stylesheet" href="css/nvd3/nv.d3.min.css">
-<div class="ink-grid">
-    <section class="pub hid-all show-tiny show-small show-medium show-large show-xlarge xlarge-push-left large-push-left medium-push-left small-push-left tiny-push-left ">
-        <nav class="ink-navigation right-space">
-            <ul class="menu vertical blue">
-                <li><a href="#">Summary</a>
-                </li>
-                <li><a href="#query">Query</a>
-                </li>
-                <li><a href="#others">Others</a>
-                </li>
-            </ul>
-        </nav>
-    </section>
-    <section class="highlight">
-        <div class="highlight-wrapper">
-            <div class="column-group gutters">
-                <div id="chartmain">
-                    all
-                </div>
+<style>
+body { padding-top: 60px; }
+</style>
+<div class="container-fluid">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="#">Summary</a>
+                    </li>
+                    <li><a href="#query">Query</a>
+                    </li>
+                    <li><a href="#others">Others</a>
+                    </li>
+                </ul>
             </div>
         </div>
-    </section>
+    </nav>
+</div>
+<div class="container-fluid">
+<div id="chartmain" class="all-100">
+    all
+</div>
 </div>

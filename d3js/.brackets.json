@@ -1,5 +1,6 @@
-{
+
     "jscodehints.detectedExclusions": [
-        "/home/lintl/workspace/samples/d3js/public/js/models/blog/BlogModel.js"
+        "/home/lintl/workspace/samples/d3js/public/js/models/blog/BlogModel.js",
+        "/home/lintl/workspace/samples/d3js/public/js/main.js"
     ]
 }
