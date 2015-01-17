@@ -2,20 +2,58 @@
     .svg {
         height: 400px;
     }
+    #main {
+        float: left;
+        width: 750px;
+    }
+    #sidebar {
+        float: right;
+        width: 100px;
+    }
+    #sequence text,
+    #legend text {
+        font-weight: 600;
+        fill: #fff;
+    }
+    #sequence {
+        width: 600px;
+        height: 70px;
+    }
+    #explanation {
+        position: relative;
+        top: 330px;
+        left: 310px;
+        width: 140px;
+        text-align: center;
+        color: #666;
+        z-index: 1;
+    }
+    #percentage {
+        font-size: 2.5em;
+    }
 </style>
 
 <div class="container-fluid">
     <div class="col-xs-8 col-md-9 col-lg-10">
+        <div id="summary-by-status">
+        </div>
         <div id="chart">
             <svg></svg>
-            <p>test</p>
         </div>
-        <div id="chart-bar-assigned">
-            test2
-            <svg></svg>
+        <div id="main">
+            <div id="sequence"></div>
+            <div id="chart-sunburst">
+                <div id="explanation" style="visibility: hidden;">
+                    <span id="percentage"></span>
+                </div>
+            </div>
+            <div id="sidebar">
+                <input type="checkbox" id="togglelegend">Legend
+                <br/>
+                <div id="legend" style="visibility: hidden;"></div>
+            </div>
         </div>
         <div id="table-assigned">
-            <p>table space</p>
         </div>
     </div>
     <div class="col-xs-4 col-md-3 col-lg-2">
@@ -25,7 +63,7 @@
                 </li>
                 <li class="active"><a href="#">this week</a>
                 </li>
-                <li><a href="#">last two weeks</a>
+                <li><a href="#weeks">last two weeks</a>
                 </li>
                 <li><a href="#">this month</a>
                 </li>

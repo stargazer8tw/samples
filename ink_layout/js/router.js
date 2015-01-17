@@ -36,9 +36,11 @@ define([
             summaryView.render();
             var chartsView = new ChartsView();
             d3.json("../data/bar.json", function (error, data) {
-//                    console.log(data);
-                    chartsView.drawBar(data);
+                //                    console.log(data);
+                chartsView.drawBar(data);
             });
+            chartsView.drawSunburstSample();
+
         });
         //        app_router.on('route:getExample', function (id) {
         //            var hiddenBox = $("#banner");

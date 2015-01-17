@@ -1,0 +1,52 @@
+<style>
+    #main {
+        float: left;
+        width: 750px;
+    }
+    #sidebar {
+        float: right;
+        width: 100px;
+    }
+    #sequence text,
+    #legend text {
+        font-weight: 600;
+        fill: #fff;
+    }
+    #sequence {
+        width: 600px;
+        height: 70px;
+    }
+    #explanation {
+        position: relative;
+        top: 330px;
+        left: 305px;
+        width: 140px;
+        text-align: center;
+        color: #666;
+        z-index: 1;
+    }
+    #percentage {
+        font-size: 2.5em;
+    }
+</style>
+<div id="main">
+    <div id="sequence"></div>
+    <div id="chart">
+        <div id="explanation" style="visibility: hidden;">
+            <span id="percentage"></span>
+        </div>
+    </div>
+    <div id="sidebar">
+        <input type="checkbox" id="togglelegend">Legend
+        <br/>
+        <div id="legend" style="visibility: hidden;"></div>
+    </div>
+</div>
+<script>
+    //    d3.json("data/assigned.json", function (error, data) {
+    //        console.log(data); // this is your data
+    //    });
+    //    d3.json("data/bar.json", function (error, data) {
+    //        console.log(data); // this is your data
+    //    });
+</script>
