@@ -3,24 +3,9 @@
         height: 400px;
     }
 </style>
-<div class="row">
-    <div class="col-md-4">
-        <ul class="nav nav-pills nav-stacked pull-left">
-            <li>
-            </li>
-            <li role="presentation" class="active"><a href="#">this week</a>
-            </li>
-            <li role="presentation"><a href="#">last two weeks</a>
-            </li>
-            <li role="presentation"><a href="#">this month</a>
-            </li>
-            <li role="presentation"><a href="#">last three months</a>
-            </li>
-            <li role="presentation"><a href="#">all</a>
-            </li>
-        </ul>
-    </div>
-    <div class="col-md-12">
+
+<div class="container-fluid">
+    <div class="col-xs-8 col-md-9 col-lg-10">
         <div id="chart">
             <svg></svg>
             <p>test</p>
@@ -32,6 +17,24 @@
         <div id="table-assigned">
             <p>table space</p>
         </div>
+    </div>
+    <div class="col-xs-4 col-md-3 col-lg-2">
+        <nav>
+            <ul class="nav nav-pills nav-stacked pull-right">
+                <li>
+                </li>
+                <li class="active"><a href="#">this week</a>
+                </li>
+                <li><a href="#">last two weeks</a>
+                </li>
+                <li><a href="#">this month</a>
+                </li>
+                <li><a href="#">last three months</a>
+                </li>
+                <li><a href="#">all</a>
+                </li>
+            </ul>
+        </nav>
     </div>
 </div>
 <script>
