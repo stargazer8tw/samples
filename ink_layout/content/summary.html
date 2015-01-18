@@ -2,42 +2,39 @@
     .svg {
         height: 400px;
     }
-    #main {
-        float: left;
-        width: 750px;
-    }
-    #sidebar {
-        float: right;
-        width: 100px;
-    }
-    #sequence text,
-    #legend text {
-        font-weight: 600;
-        fill: #fff;
-    }
-    #sequence {
-        width: 600px;
-        height: 70px;
-    }
-    #explanation {
-        position: relative;
-        top: 330px;
-        left: 310px;
-        width: 140px;
-        text-align: center;
-        color: #666;
-        z-index: 1;
-    }
-    #percentage {
-        font-size: 2.5em;
-    }
 </style>
 
 <div class="container-fluid">
     <div class="col-xs-8 col-md-9 col-lg-10">
-        <div id="summary-by-status">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Status</div>
+            <div class="panel-body">
+                <div id="summary-by-status">
+                </div>
+                <div id="summary-by-subproject">
+                </div>
+            </div>
         </div>
-        <div id="summary-by-subproject">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Assign</div>
+            <div class="panel-body">
+                <div id="summary-by-assignee">
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">Overall</div>
+            <div class="panel-body">
+                <div id="summary-sla">
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">Burndown</div>
+            <div class="panel-body">
+                <div id="summary-burndown">
+                </div>
+            </div>
         </div>
     </div>
     <div class="col-xs-4 col-md-3 col-lg-2">

@@ -10,8 +10,8 @@ define([
     var D3Chart = Backbone.View.extend({
         drawSunburst: function (data) {
             // Dimensions of sunburst.
-            var width = 300;
-            var height = 300;
+            var width = 750;
+            var height = 600;
             var radius = Math.min(width, height) / 2;
 
             // Breadcrumb dimensions: width, height, spacing, width of tip/tail.
@@ -23,14 +23,7 @@ define([
             };
 
             // Mapping of step names to colors.
-            var colors = {
-                "home": "#5687d1",
-                "product": "#7b615c",
-                "search": "#de783b",
-                "account": "#6ab975",
-                "other": "#a173d1",
-                "end": "#bbbbbb"
-            };
+            var colors = d3.scale.category20();
 
             // Total size of all segments; we set this later, after loading the data.
             var totalSize = 0;
@@ -72,10 +65,7 @@ define([
 
             // Main function to draw and set up the visualization, once we have the data.
             function createVisualization(json) {
-
-                // Basic setup of page elements.
                 initializeBreadcrumbTrail();
-                drawLegend();
                 d3.select("#togglelegend").on("click", toggleLegend);
 
                 // Bounding circle underneath the sunburst, to make it easier to detect
@@ -89,7 +79,21 @@ define([
                     .filter(function (d) {
                         return (d.dx > 0.005); // 0.005 radians = 0.29 degrees
                     });
+                var uniqueNames = (function (a) {
+                    var output = [];
+                    a.forEach(function (d) {
+                        if (output.indexOf(d.name) === -1) {
+                            output.push(d.name);
+                        }
+                    });
+                    return output;
+                })(nodes);
 
+                // set domain of colors scale based on data
+                colors.domain(uniqueNames);
+                // make sure this is done after setting the domain
+                drawLegend();
+                // Basic setup of page elements.
                 var path = vis.data([json]).selectAll("path")
                     .data(nodes)
                     .enter().append("svg:path")
@@ -99,7 +103,7 @@ define([
                     .attr("d", arc)
                     .attr("fill-rule", "evenodd")
                     .style("fill", function (d) {
-                        return colors[d.name];
+                        return colors(d.name);
                     })
                     .style("opacity", 1)
                     .on("mouseover", mouseover);
@@ -218,7 +222,7 @@ define([
                 entering.append("svg:polygon")
                     .attr("points", breadcrumbPoints)
                     .style("fill", function (d) {
-                        return colors[d.name];
+                        return colors(d.name);
                     });
 
                 entering.append("svg:text")
@@ -250,6 +254,55 @@ define([
                 d3.select("#trail")
                     .style("visibility", "");
 
+            }
+
+            function drawLegend() {
+
+                // Dimensions of legend item: width, height, spacing, radius of rounded rect.
+                var li = {
+                    w: 75,
+                    h: 30,
+                    s: 3,
+                    r: 3
+                };
+
+                var legend = d3.select("#legend").append("svg:svg")
+                    .attr("width", li.w)
+                    .attr("height", colors.domain().length * (li.h + li.s));
+
+                var g = legend.selectAll("g")
+                    .data(colors.domain())
+                    .enter().append("svg:g")
+                    .attr("transform", function (d, i) {
+                        return "translate(0," + i * (li.h + li.s) + ")";
+                    });
+
+                g.append("svg:rect")
+                    .attr("rx", li.r)
+                    .attr("ry", li.r)
+                    .attr("width", li.w)
+                    .attr("height", li.h)
+                    .style("fill", function (d) {
+                        return colors(d);
+                    });
+
+                g.append("svg:text")
+                    .attr("x", li.w / 2)
+                    .attr("y", li.h / 2)
+                    .attr("dy", "0.35em")
+                    .attr("text-anchor", "middle")
+                    .text(function (d) {
+                        return d;
+                    });
+            }
+
+            function toggleLegend() {
+                var legend = d3.select("#legend");
+                if (legend.style("visibility") == "hidden") {
+                    legend.style("visibility", "");
+                } else {
+                    legend.style("visibility", "hidden");
+                }
             }
 
             // Take a 2-column CSV and transform it into a hierarchical structure suitable
