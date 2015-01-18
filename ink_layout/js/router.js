@@ -3,11 +3,13 @@ define([
     'underscore',
     'backbone',
     'd3',
-    'views/ChartsView',
+    'views/D3Chart',
+    'views/D3ChartExample',
     'views/MainView',
     'views/SummaryView',
-    'views/QueryView'
-], function ($, _, Backbone, d3, ChartsView, MainView, SummaryView, QueryView) {
+    'views/QueryView',
+    'views/ExampleView'
+], function ($, _, Backbone, d3, D3Chart, D3ChartExample, MainView, SummaryView, QueryView, ExampleView) {
     "use strict";
     var AppRouter = Backbone.Router.extend({
         routes: {
@@ -15,6 +17,7 @@ define([
             //            'demo': 'showDemo',
             //            "examples/:id": "getExample",
             'query': 'showQuery',
+            'example': 'showExample',
             // Default
             '*actions': 'defaultAction'
         }
@@ -30,16 +33,21 @@ define([
             queryView.render();
 
         });
+        app_router.on('route:showExample', function (actions) {
+            var exampleView = new ExampleView();
+            exampleView.render();
+            var chart = new D3ChartExample();
+            d3.json("../data/bar.json", function (error, data) {
+                //                    console.log(data);
+                chart.drawBar(data);
+            });
+            chart.drawSunburstSample();
 
+        });
         app_router.on('route:defaultAction', function (actions) {
             var summaryView = new SummaryView();
             summaryView.render();
-            var chartsView = new ChartsView();
-            d3.json("../data/bar.json", function (error, data) {
-                //                    console.log(data);
-                chartsView.drawBar(data);
-            });
-            chartsView.drawSunburstSample();
+            var chart = new D3Chart();
 
         });
         //        app_router.on('route:getExample', function (id) {
